@@ -1,6 +1,3 @@
-eval.fd(evalarg=0:m/m, harmonicsX[1])%*%t(eval.fd(evalarg=0:m/m, harmonicsX[1]))
-
-
 pc<-50
 t<-50
 Tipo=0

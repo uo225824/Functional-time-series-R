@@ -18,8 +18,9 @@ s<-seq(0,1,length.out = 50)
 t<-seq(0,1,length.out = 50)
 hl<-5
 rate<-1E-6
+X<-t(serie)
 
-for (l in 1:1000) {
+for (l in 1:10000) {
   
 P<-matrix(0,nrow = 50,ncol = 50)
 Pf<-matrix(0,nrow = 50,ncol = 50)
@@ -35,10 +36,10 @@ for (k in 1:hl) {
 }
 
 
-yest<-t(Pf)%*%X[,1:99]/(50)
+yest<-t(Pf)%*%X[,1:108]/(50)
 er<-0
 
-for (i in 1:99) {
+for (i in 1:108) {
   er[i]<-t(X[,i+1]-yest[,i])%*%(X[,i+1]-yest[,i])/50
 }
 
@@ -70,7 +71,7 @@ grad<-matrix(ncol = hl,nrow = 4)
 L<-0
 for (k in 1:hl) {
   for (j in 1:4) {
-    for (i in 1:99) {
+    for (i in 1:50) {
       if (j==1) {
         L[i]<-t((X[,i+1]-yest[,i]))%*%Pdf[[k]]%*%hadamard.prod(STB[,j],X[,i+1])/250
       }
@@ -96,10 +97,6 @@ W1<-W1+rate*grad
 
 if (l %% 100==0) {
   plot(u)
-  persp((0:49/49),(0:49/49),z=t(Pf),cex.axis = axisticksize,
-        cex.lab=axislabelsize, xlab="t",ylab="s", zlab=" ", theta=30,
-        phi=30,
-        ticktype="detailed", main="P=3",col = "blue")
 }
 print(l)
 

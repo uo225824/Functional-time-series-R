@@ -18,7 +18,7 @@ N1<-2
 if (length(serie.f)%%tt==0) {
   N1<-1
 }
-serie<-serie[1:123,]
+serie<-serie[1:100,]
 
 fdx<-Data2fd(t(serie[1:(nrow(serie)-N1+1),]),argvals = 0:m/m)
 
@@ -38,25 +38,24 @@ for (i in 1:pc) {
   }
 }
 print(nbasis)
-nbasis<-2
-p<-2
+nbasis<-1
+p<-0
 rho1<-Nucleophi(fdx,eigenvalues,scoresX,harmonicsX,m,nbasis,N,p)
 
-estima<-matrix(0,nrow =nrow(fdx$coefs)-2 ,ncol = ncol(fdx$coefs))
+estima<-matrix(0,nrow =nrow(fdx$coefs)-2 ,ncol = nrow(serie))
 for (j  in 2:ncol(fdx$coefs)) {
-    XN<-Data2fd(rho1%*%eval.fd(evalarg = 0:m/m,fdx[j]-media)/tt,argvals = 0:m/m)+media
-    XN1<-Data2fd(rho1%*%eval.fd(evalarg = 0:m/m,fdx[j-1]-media)/tt,argvals = 0:m/m)+media
-  estima[,j]<-eval.fd(evalarg = 0:m/m,XN+XN1)
+    XN<-Data2fd(rho1%*%eval.fd(evalarg = 0:m/m,fdx[j-1]-media)/tt,argvals = 0:m/m)+media
+  estima[,j]<-eval.fd(evalarg = 0:m/m,XN)
   print(j)
 } 
 
-for (j  in (ncol(fdx$coefs)+1):161) {
+for (j  in (ncol(fdx$coefs)+1):170) {
   XN<-Data2fd(rho1%*%eval.fd(evalarg = 0:m/m,XN-media)/tt,argvals = 0:m/m)+media
   estima[,j]<-eval.fd(evalarg = 0:m/m,XN)
   print(j)
 } 
 
-Y1<-Data2fd(t(serie[2:122,])-estima,argvals = 0:m/m)
+Y1<-Data2fd(t(serie[2:170,])-estima[,1:169],argvals = 0:m/m)
 X1f<-Data2fd(estima,argvals = 0:m/m)
 X1fT<-Data2fd(t(serie),argvals = 0:m/m)
 X2<-matrix(0,nrow = nrow(X1fT$coefs),ncol = ncol(X1fT$coefs))
@@ -66,12 +65,12 @@ for (j in 1:ncol(X1fT$coefs)) {
 X2f<-Data2fd(X2,argvals = 0:(nrow(X2)-1)/(nrow(X2)-1))
 estima2<-eval.fd(evalarg = 0:m/m,X2f)
 
-estimaf<-estima+estima2[,1:161]
+estimaf<-estima+estima2
 return(estimaf)
 }
 
-last=99
-N=99
+last=108
+N=108
 plot.ts(c(t(serie[(N-last+1):N,])),ylim=c(min(t(serie[(N-last):N,]))-0.5,0.5
                                           +max(t(serie[(N-last):N,]))),axes=F,xlab="",ylab="",lwd=2)
 axis(2); axis(1,tick=F,labels=F); abline(h=0)
@@ -84,4 +83,4 @@ lines(c(yest[,(N-last+1):N]),col="red")
 plot.ts(as.vector(yest))
 
 lines(c(estima[,(N-last+1):N]),col="blue", lty=3)
-lines(c(estimaf2[,(N-last+1):N]),col="blue", lty=2)
+lines(c(estimaf[,(N-last+1):N]),col="red", lty=2)

@@ -1,7 +1,8 @@
 NPregre(X12f,X12fT[j],Y12,3)
-X<-X12f
-r2<-X12fT[1]
-Y
+X<-X1f
+r2<-X1fT[1]
+Y<-Y1
+knn<-3
 NPregre <- function(X,r2,Y,knn) {
   
   d<-0
