@@ -1,8 +1,9 @@
-pc<-50
-t<-50
+library(fda.usc)
+pc<-12
+t<-12
 Tipo=0
 p<-0
-serie.f<-X[,1:100]
+serie.f<-na.omit(as.numeric(datos))
 serie<-t(serie.f)
 ARH1N<-function(serie.f,t,pc,Tipo,p){
   m<-t-1
@@ -55,7 +56,7 @@ ARH1N<-function(serie.f,t,pc,Tipo,p){
   }
   
   base1<-which.min(FRMSE)
-  base1<-3
+  base1<-1
   p<-0
   rho1<-Nucleophi(fdx,eigenvalues,scoresX,harmonicsX,m,base1,N,p)
   XN1<-0
