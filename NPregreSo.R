@@ -77,8 +77,8 @@ for (j in 1:10) {
   CV<-0
   h<-h/1.5
   print(h)
-  for (i in 1:179) {
-    npr<-NPregreSo(X[-i],Y[i],h)
+  for (i in 1:150) {
+    npr<-NPregreSo(X[-i],X[i],h)
     CV[i]<-(colMeans((Y[i]$coefs-npr)^2))
   }
   CVf[j]<-mean(CV)
@@ -91,7 +91,7 @@ h<-0.01/(1.5^which.min(CVf))
 
 nprf<-matrix(0,nrow = 30,ncol = 179)
 for (i in 1:179) {
-  npr<-NPregreSo(X,Y[i],h)
+  npr<-NPregreSo(X[1:150],X[i],h)
   nprf[,i]<-eval.fd(Data2fd(npr),seq(0,1,length=ttiempo))
 }
 

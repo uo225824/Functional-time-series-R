@@ -1,6 +1,7 @@
-pc<-50
-tt<-50
-serie.f<-X
+pc<-12
+tt<-12
+serie.f<-as.numeric(datos$X75.53300)
+serie.f<-diff(serie.f)
 serie.f2<-X2
 Tipo=0
 p<-0
@@ -18,7 +19,10 @@ N1<-2
 if (length(serie.f)%%tt==0) {
   N1<-1
 }
-serie<-serie[1:100,]
+serie2<-serie
+serie<-serie[1:25,]
+serie<-serie[1:181,]
+N1<-1
 
 fdx<-Data2fd(t(serie[1:(nrow(serie)-N1+1),]),argvals = 0:m/m)
 
@@ -69,8 +73,8 @@ estimaf<-estima+estima2
 return(estimaf)
 }
 
-last=108
-N=108
+last=25
+N=25
 plot.ts(c(t(serie[(N-last+1):N,])),ylim=c(min(t(serie[(N-last):N,]))-0.5,0.5
                                           +max(t(serie[(N-last):N,]))),axes=F,xlab="",ylab="",lwd=2)
 axis(2); axis(1,tick=F,labels=F); abline(h=0)
@@ -78,9 +82,29 @@ abline(v=seq(0,last*(m+1),by=m+1), lty=2);
 box()
 
 
-lines(c(yest[,(N-last+1):N]),col="red")
+lines(c(yest[,(N-last):(N-1)]),col="red")
 
-plot.ts(as.vector(yest))
+plot.ts(as.vector(datos))
+plot.ts(as.vector(serie.f))
 
-lines(c(estima[,(N-last+1):N]),col="blue", lty=3)
-lines(c(estimaf[,(N-last+1):N]),col="red", lty=2)
+lines(as.vector(yest),col="blue")
+
+lines(c(estima[,(N-last+1):(N)]),col="blue")
+lines(c(estima2[,(N-last+1):N]),col="red", lty=2)
+
+
+
+
+plot.ts(as.vector(datos),lwd=2,lty=1,main="FNP",xlab="t", ylab="Rate")
+lines(as.vector(estima2[,1:150]),col="blue")
+legend(0, 1, legend=c("Test", "Training"),
+       col=c("red", "blue"), lty=2:1, cex=0.8)
+
+
+
+
+
+plot.ts(as.vector(datos),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
+lines(as.vector(estima2[,1:150]),col="blue")
+legend(0, 1, legend=c("Test", "Training"),
+       col=c("red", "blue"), lty=2:1, cex=0.8)
