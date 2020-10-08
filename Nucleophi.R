@@ -1,6 +1,39 @@
-Nucleophi<-function(fdx,eigenvalues,scoresX,harmonicsX,m,base,N){
+Nucleophi<-function(fdx,eigenvalues,scoresX,harmonicsX,m,base,N,p){
+  
   rho<-0
   rho1<-0
+  if (p>1) {
+    L3<-0
+    for (k in 1:base) {
+      L2<-0
+
+      for (j in p:N) {
+        L1<-0
+        for (n in 0:(p-1)) {
+          L<-(t(eval.fd(evalarg=0:m/m, fdx[j-n]))%*%(eval.fd(evalarg=0:m/m, harmonicsX[k])))/length(0:m/m)
+          L1<-L1+L
+        }
+        L2<-L2+L1^2
+      }
+      L3[k]<-L2/N
+    }
+    for (l in 1:base) {
+      for (i in p:(N-1)) {
+        for (j in 1:base) {
+          for (n in 0:(p-1)) {
+            rho<-as.numeric((1/L3[j])*scoresX[i-n,j]*scoresX[i+1-n,l])*eval.fd(evalarg=0:m/m, harmonicsX[j])%*%t(eval.fd(evalarg=0:m/m, harmonicsX[l]))
+            rho1<-rho1+rho
+            }
+
+        }
+      }
+      print(l)
+    }
+    rho1[[1]]<-rho1[[1]]/(N-1)
+    rho1[[2]]<-rho1[[2]]/(N-1)
+    return(rho1)
+    
+  }else{
     for (l in 1:base) {
       for (i in 1:(N-1)) {
         for (j in 1:base) {
@@ -12,8 +45,9 @@ Nucleophi<-function(fdx,eigenvalues,scoresX,harmonicsX,m,base,N){
     }
     rho1<-rho1/(N-1)
     return(rho1)
-}
+  }
   
+}
 base<-3
 rho1<-Nucleophi(fdx,eigenvalues,scoresX,harmonicsX,m,base,N,1)
 rho2<-Nucleophi(fdx,eigenvalues,scoresX,harmonicsX,m,base,N,1)

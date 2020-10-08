@@ -1,20 +1,4 @@
-serie.funcional<-datos
-ttiempo<-30
 
-serie<-t(matrix(serie.funcional,nrow=ttiempo))
-serie
-N1<-2
-if (length(serie.funcional)%%ttiempo==0) {
-  N1<-1
-}
-serie.r<-t(serie[1:(nrow(serie)-N1+1),])
-
-x<-matrix(0,ttiempo,ncol = ncol(serie.r)-1)
-y<-matrix(0,ttiempo,ncol = ncol(serie.r)-1)
-for (i in 1:(ncol = ncol(serie.r)-1)) {
-  x[,i]<-serie.r[,i]
-  y[,i]<-serie.r[,i+1]
-}
 
 #Libreria principal del analisis de datos funcionales.
 
@@ -62,7 +46,7 @@ prf<-predict(res.fr,datosf,basisobj = basisx)
 pr<-eval.fd(prf,seq(0,1,length=ttiempo))
 
 #Representación Grafica
-plot.ts(as.vector(serie.r[,2:180]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
+plot.ts(as.vector(datos[1:(length(datos)-60)]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
 lines(as.vector(pr),col="red")
 lines(as.vector(pr[,1:150]),col="blue")
 legend(1,1.6 , legend=c("Test", "Training"),

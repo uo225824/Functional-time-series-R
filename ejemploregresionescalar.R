@@ -20,6 +20,7 @@ res.lm=fregre.lm(y~abor,ldata,basis.x=b.x)
 
 plot(betaf,lwd=2,lty=1,col="blue",main="Modelo teórico vs estimado",xlab="t", ylab="Beta(t)")
 lines(res.lm$beta.l[["abor"]],lwd=2,lty=2,col="red")
-
+legend(0, 1, legend=c("Estimado", "Teorico"),
+       col=c("red", "blue"), lty=2:1, cex=0.8)
 
 plot(opt.bs$numbasis,opt.bs$gcv,type="l")

@@ -10,9 +10,9 @@ if (length(serie.funcional)%%ttiempo==0) {
 }
 serie.r<-t(serie[1:(nrow(serie)-N1+1),])
 
-x<-matrix(0,ttiempo,ncol = ncol(serie.r)-1)
-y<-matrix(0,ttiempo,ncol = ncol(serie.r)-1)
-for (i in 1:(ncol = ncol(serie.r)-1)) {
+x<-matrix(0,ttiempo,ncol = ncol(serie.r)-2)
+y<-matrix(0,ttiempo,ncol = ncol(serie.r)-2)
+for (i in 1:(ncol = ncol(serie.r)-2)) {
   x[,i]<-serie.r[,i]
   y[,i]<-serie.r[,i+1]
 }
@@ -89,15 +89,15 @@ for (j in 1:10) {
 #Modelo final no parametrico
 h<-0.01/(1.5^which.min(CVf))
 
-nprf<-matrix(0,nrow = 30,ncol = 180)
-for (i in 1:180) {
+nprf<-matrix(0,nrow = 30,ncol = 179)
+for (i in 1:179) {
   npr<-NPregreSo(X[1:150],X[i],h)
   nprf[,i]<-eval.fd(Data2fd(npr),seq(0,1,length=ttiempo))
 }
 
 
 #Representación Grafica
-plot.ts(as.vector(datos[30:(length(datos)-30)]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
+plot.ts(as.vector(datos[1:(length(datos)-60)]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
 lines(as.vector(nprf),col="red")
 lines(as.vector(nprf[,1:150]),col="blue")
 legend(1,1.6 , legend=c("Test", "Training"),
