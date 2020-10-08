@@ -3,11 +3,11 @@ sigmoid <- function(x) return(1/(1+exp(-x)))
 #Derivada de la función sigmoide
 d.sigmoid <- function(x) return(exp(-x)/(1+exp(-x))^2)
 
-set.seed(12345)
+set.seed(1234)
 
 #Inicialización de los pesos
 hl<-5
-W1 <- matrix(runif(4*hl[1], 0, 0.1), nrow = 4)
+W1 <- matrix(runif(4*hl[1], 0, 1), nrow = 4)
 W2<-W1
 #Discretización de la componente temporal
 s<-seq(0,1,length.out = 30)
@@ -98,7 +98,7 @@ plot.ts(as.vector(u[1:5000]),lwd=2,lty=1,main="Entrenamiento de la red neuronal"
 
 #Representación Grafica
 yest<-t(Pf)%*%X/(30)
-plot.ts(as.vector(datos[1:(length(datos)-60)]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
+plot.ts(as.vector(serie.r[,2:180]),lwd=2,lty=1,main="Ratio Dolar/Euro ",xlab="Tiempo (días)", ylab="Ratio")
 lines(as.vector(yest),col="red")
 lines(as.vector(yest[,1:150]),col="blue")
 legend(1,1.6 , legend=c("Test", "Training"),
